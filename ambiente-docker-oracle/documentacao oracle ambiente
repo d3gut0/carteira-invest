@@ -1,0 +1,58 @@
+CREATE USER invest IDENTIFIED BY SenhaForte123;
+
+GRANT CONNECT, RESOURCE TO invest;
+ALTER USER invest DEFAULT TABLESPACE users QUOTA UNLIMITED ON users;
+
+
+-----
+criei usuario(schema) especifico para este projeto , para noa ficar miusturado com os objetos do oracle:
+o Oracle XE já vem com vários schemas prontos
+Quando você se conecta com o usuário SYSTEM, você está num usuário administrativo — tipo um "superusuário". Mas isso não é o lugar ideal pra sair criando tabelas, e eu já te explico o porquê:
+
+🚨 Por que não usar o SYSTEM pra criar suas tabelas?
+O SYSTEM é um usuário administrador do banco, e é melhor evitar "poluir" esse schema.
+
+Usar SYSTEM pra dados de aplicação (ou estudo) pode:
+
+Misturar seus objetos com objetos internos da Oracle.
+
+Aumentar o risco de deletar algo crítico sem querer.
+
+Dificultar exportações e organização futuramente.
+
+✅ Melhor prática: crie seu próprio schema
+Você pode criar um novo usuário (schema = usuário) assim:
+
+sql
+Copiar
+Editar
+CREATE USER invest IDENTIFIED BY senha123;
+GRANT CONNECT, RESOURCE TO invest;
+ALTER USER invest DEFAULT TABLESPACE users QUOTA UNLIMITED ON users;
+Isso faz:
+
+Cria o usuário invest com a senha senha123
+
+Dá as permissões básicas pra conectar e criar objetos
+
+Libera espaço ilimitado na tablespace padrão users
+
+🚀 Depois disso, conecte com:
+Usuário: invest
+
+Senha: senha123
+
+Service Name: XEPDB1
+
+E tudo que você criar vai ficar isolado nesse schema, bem organizado.
+
+🔐 Permissões básicas para o novo usuário
+O GRANT CONNECT, RESOURCE já permite:
+
+Criar tabelas, views, índices, sequences, procedures
+
+Fazer inserts, selects, updates, deletes
+
+Criar e usar sinônimos
+
+Se quiser permissões extras depois, dá pra ajustar.

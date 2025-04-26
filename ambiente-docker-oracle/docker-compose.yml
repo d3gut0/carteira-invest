@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  oracle-xe:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: oracle-xe
+    ports:
+      - "1521:1521"   # Porta para conexões SQL (ex: SQL Developer)
+      - "5500:5500"   # Porta para APEX/EM (se ativado)
+    environment:
+      - ORACLE_PASSWORD=SenhaForte123
+      - APP_USER=invest
+      - APP_USER_PASSWORD=SenhaDev123
+    volumes:
+      - oracle-data:/opt/oracle/oradata   # Persistência dos dados
+    restart: unless-stopped
+
+volumes:
+  oracle-data:
