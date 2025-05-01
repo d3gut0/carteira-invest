@@ -18,7 +18,7 @@ export class AtivosService {
   }
 
   async findAll(): Promise<Ativo[]> {
-    return this.ativoRepo.find({ relations: ['tipoAtivo'] });
+    return this.ativoRepo.find();
   }
 
   async findOne(id: number): Promise<Ativo> {

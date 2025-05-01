@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { CotacoesService } from './cotacoes.service';
-import { CotacoesController } from './cotacoes.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Cotacao } from './cotacao.entity';
+import { CotacaoController } from './cotacoes.controller';
+import { CotacaosService } from './cotacoes.service';
 
 @Module({
-  providers: [CotacoesService],
-  controllers: [CotacoesController]
+  imports: [TypeOrmModule.forFeature([Cotacao])],
+  providers: [CotacaosService],
+  controllers: [CotacaoController]
 })
 export class CotacoesModule {}

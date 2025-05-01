@@ -6,7 +6,7 @@ import { UpdateMovimentacoesDto } from './dtos/update-movimentacoes.dto';
 import { Movimentacao } from './movimentacao.entity';
 
 @Injectable()
-export class MovimentacoessService {
+export class MovimentacoesService {
   constructor(
     @InjectRepository(Movimentacao)
     private MovimentacoesRepo: Repository<Movimentacao>,

@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { TipoAtivo } from './tipo-ativo.entity';
 
 @Controller('Tipoativos')
-export class TipoAtivosController {
+export class TipoAtivoController {
   // GET /usuarios
   @Get()
   findAll(): string {

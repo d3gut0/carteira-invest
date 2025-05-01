@@ -6,7 +6,7 @@ import { UpdateTipoAtivoDto } from './dtos/update-tipo-ativo.dto';
 import { TipoAtivo } from './tipo-ativo.entity';
 
 @Injectable()
-export class tipoAtivosService {
+export class TipoAtivoService {
   constructor(
     @InjectRepository(TipoAtivo)
     private tipoativoRepo: Repository<TipoAtivo>,
@@ -18,13 +18,13 @@ export class tipoAtivosService {
   }
 
   async findAll(): Promise<TipoAtivo[]> {
-    return this.tipoativoRepo.find({ relations: ['tipotipoAtivo'] });
+    return this.tipoativoRepo.find();
   }
 
   async findOne(id: number): Promise<TipoAtivo> {
     return this.tipoativoRepo.findOneOrFail({
       where: { id },
-      relations: ['tipotipoAtivo'],
+      relations: ['tipoAtivo'],
     });
   }
 

@@ -42,5 +42,5 @@ import {
     dataMovimentacao!: string;     // opcional → torne @IsOptional se quiser
   }
   
-  export class UpdateMovimentacaoDto extends PartialType(CreateMovimentacaoDto) {}
+  export class UpdateMovimentacaoDto extends PartialType(CreateMovimentacoesDto) {}
   

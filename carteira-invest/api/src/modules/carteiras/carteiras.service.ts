@@ -18,7 +18,7 @@ export class CarteirasService {
   }
 
   async findAll(): Promise<Carteira[]> {
-    return this.CarteiraRepo.find({ relations: ['tipoCarteira'] });
+    return this.CarteiraRepo.find();
   }
 
   async findOne(id: number): Promise<Carteira> {
