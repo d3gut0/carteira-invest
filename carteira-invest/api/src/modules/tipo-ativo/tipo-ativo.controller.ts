@@ -3,23 +3,23 @@ import { CreateTipoAtivoDto, UpdateTipoAtivoDto } from "./dtos/create-tipo-ativo
 import { TipoAtivoService } from "./tipo-ativo.service";
 
 
-@Controller('Cotacao')
+@Controller('tipo-ativo')
 export class TipoAtivoController {
-  constructor(private readonly CotacaoService: TipoAtivoService) {}
+  constructor(private readonly service: TipoAtivoService) {}
 
   @Post()
   create(@Body() dto: CreateTipoAtivoDto) {
-    return this.CotacaoService.create(dto);
+    return this.service.create(dto);
   }
 
   @Get()
   findAll() {
-    return this.CotacaoService.findAll();
+    return this.service.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.CotacaoService.findOne(id);
+    return this.service.findOne(id);
   }
 
   @Put(':id')
@@ -27,11 +27,11 @@ export class TipoAtivoController {
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateTipoAtivoDto,
   ) {
-    return this.CotacaoService.update(id, dto);
+    return this.service.update(id, dto);
   }
 
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
-    return this.CotacaoService.remove(id);
+    return this.service.remove(id);
   }
 }

@@ -3,7 +3,7 @@ import { CarteirasService } from "./carteiras.service";
 import { CreateCarteiraDto } from "./dtos/create-carteira.dto";
 import { UpdateCarteiraDto } from "./dtos/update-carteira.dto";
 
-@Controller('Carteirass')
+@Controller('carteiras')
 export class CarteirasController {
   constructor(private readonly CarteirassService: CarteirasService) {}
 

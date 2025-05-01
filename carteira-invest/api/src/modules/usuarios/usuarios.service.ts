@@ -18,7 +18,7 @@ export class UsuariosService {
   }
 
   async findAll(): Promise<Usuario[]> {
-    return this.UsuarioRepo.find({ relations: ['tipoUsuario'] });
+    return this.UsuarioRepo.find();
   }
 
   async findOne(id: number): Promise<Usuario> {

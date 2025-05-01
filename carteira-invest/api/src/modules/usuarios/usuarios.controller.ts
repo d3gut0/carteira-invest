@@ -4,23 +4,23 @@ import { UpdateUsuarioDto } from "./dtos/update-usuario.dto";
 import { UsuariosService } from "./usuarios.service";
 
 
-@Controller('Cotacao')
+@Controller('usuarios')
 export class UsuariosController {
-  constructor(private readonly CotacaoService: UsuariosService) {}
+  constructor(private readonly service: UsuariosService) {}
 
   @Post()
   create(@Body() dto: CreateUsuarioDto) {
-    return this.CotacaoService.create(dto);
+    return this.service.create(dto);
   }
 
   @Get()
   findAll() {
-    return this.CotacaoService.findAll();
+    return this.service.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.CotacaoService.findOne(id);
+    return this.service.findOne(id);
   }
 
   @Put(':id')
@@ -28,11 +28,11 @@ export class UsuariosController {
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateUsuarioDto,
   ) {
-    return this.CotacaoService.update(id, dto);
+    return this.service.update(id, dto);
   }
 
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
-    return this.CotacaoService.remove(id);
+    return this.service.remove(id);
   }
 }

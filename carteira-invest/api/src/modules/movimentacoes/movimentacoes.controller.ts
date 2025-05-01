@@ -5,7 +5,7 @@ import { MovimentacoesService } from "./movimentacoes.service";
 
 
 
-@Controller('Cotacao')
+@Controller('movimentacoes')
 export class MovimentacoesController {
   constructor(private readonly CotacaoService: MovimentacoesService) {}
 

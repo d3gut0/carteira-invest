@@ -3,7 +3,7 @@ import { CotacoesService } from "./cotacoes.service";
 import { CreateCotacaoDto, UpdateCotacaoDto } from "./dtos/create-cotacoes.dto";
 
 
-@Controller('Cotacao')
+@Controller('cotacoes') 
 export class CotacoesController {
   constructor(private readonly CotacaoService: CotacoesService) {}
 

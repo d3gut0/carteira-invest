@@ -1,5 +1,5 @@
 // example: create-Usuario.dto.ts
-import { IsNotEmpty, IsNumber, IsString, Length } from 'class-validator';
+import { IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class CreateUsuarioDto {
   @IsString()
@@ -10,10 +10,12 @@ export class CreateUsuarioDto {
   @IsString()
   @IsNotEmpty()
   @Length(1, 100)
-  descricao: string;
+  email: string;
 
-  @IsNumber()
-  usuario: number;
+  @IsString()
+  @IsNotEmpty()
+  @Length(1, 100)
+  hashSenha: string;
 
   
 }

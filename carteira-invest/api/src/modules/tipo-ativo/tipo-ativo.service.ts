@@ -9,31 +9,31 @@ import { TipoAtivo } from './tipo-ativo.entity';
 export class TipoAtivoService {
   constructor(
     @InjectRepository(TipoAtivo)
-    private tipoativoRepo: Repository<TipoAtivo>,
+    private repository: Repository<TipoAtivo>,
   ) {}
 
   async create(dto: CreateTipoAtivoDto): Promise<TipoAtivo> {
-    const tipoativo = this.tipoativoRepo.create(dto);
-    return this.tipoativoRepo.save(tipoativo);
+    const tipoativo = this.repository.create(dto);
+    return this.repository.save(tipoativo);
   }
 
   async findAll(): Promise<TipoAtivo[]> {
-    return this.tipoativoRepo.find();
+    return this.repository.find();
   }
 
   async findOne(id: number): Promise<TipoAtivo> {
-    return this.tipoativoRepo.findOneOrFail({
+    return this.repository.findOneOrFail({
       where: { id },
       relations: ['tipoAtivo'],
     });
   }
 
   async update(id: number, dto: UpdateTipoAtivoDto): Promise<TipoAtivo> {
-    await this.tipoativoRepo.update(id, dto);
+    await this.repository.update(id, dto);
     return this.findOne(id);
   }
 
   async remove(id: number): Promise<void> {
-    await this.tipoativoRepo.delete(id);
+    await this.repository.delete(id);
   }
 }
