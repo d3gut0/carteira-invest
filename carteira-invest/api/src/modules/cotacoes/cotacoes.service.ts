@@ -6,7 +6,7 @@ import { CreateCotacaoDto } from './dtos/create-cotacoes.dto';
 import { UpdateCotacaoDto } from './dtos/update-cotacoes.dto';
 
 @Injectable()
-export class CotacaosService {
+export class CotacoesService {
   constructor(
     @InjectRepository(Cotacao)
     private CotacaoRepo: Repository<Cotacao>,

@@ -1,23 +1,37 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { Ativo } from './ativo.entity';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
+import { AtivosService } from "./ativos.service";
+import { CreateAtivoDto } from "./dtos/create-ativo.dto";
+import { UpdateAtivoDto } from "./dtos/update-ativo.dto";
 
 @Controller('ativos')
 export class AtivosController {
-  // GET /usuarios
-  @Get()
-  findAll(): string {
-    return 'Listando todos os usuários';
-  }
+  constructor(private readonly ativosService: AtivosService) {}
 
-  // GET /usuarios/:id
-  @Get(':id')
-  findOne(@Param('id') id: string): string {
-    return `Detalhes do usuário ${id}`;
-  }
-
-  // POST /usuarios
   @Post()
-  create(@Body() usuario: Partial<Ativo>): string {
-    return `Criando usuário ${usuario.nome}`;
+  create(@Body() dto: CreateAtivoDto) {
+    return this.ativosService.create(dto);
+  }
+
+  @Get()
+  findAll() {
+    return this.ativosService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.ativosService.findOne(id);
+  }
+
+  @Put(':id')
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateAtivoDto,
+  ) {
+    return this.ativosService.update(id, dto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.ativosService.remove(id);
   }
 }

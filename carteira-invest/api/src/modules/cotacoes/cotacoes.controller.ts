@@ -1,26 +1,37 @@
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
+import { CotacoesService } from "./cotacoes.service";
+import { CreateCotacaoDto, UpdateCotacaoDto } from "./dtos/create-cotacoes.dto";
 
 
+@Controller('Cotacao')
+export class CotacoesController {
+  constructor(private readonly CotacaoService: CotacoesService) {}
 
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { Cotacao } from './cotacao.entity';
-
-@Controller('Cotacaos')
-export class CotacaoController {
-  // GET /usuarios
-  @Get()
-  findAll(): string {
-    return 'Listando todos os usuários';
-  }
-
-  // GET /usuarios/:id
-  @Get(':id')
-  findOne(@Param('id') id: string): string {
-    return `Detalhes do usuário ${id}`;
-  }
-
-  // POST /usuarios
   @Post()
-  create(@Body() cotacao: Partial<Cotacao>): string {
-    return `Criando usuário ${cotacao.id}`;
+  create(@Body() dto: CreateCotacaoDto) {
+    return this.CotacaoService.create(dto);
+  }
+
+  @Get()
+  findAll() {
+    return this.CotacaoService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.CotacaoService.findOne(id);
+  }
+
+  @Put(':id')
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateCotacaoDto,
+  ) {
+    return this.CotacaoService.update(id, dto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.CotacaoService.remove(id);
   }
 }

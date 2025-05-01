@@ -1,23 +1,37 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { TipoAtivo } from './tipo-ativo.entity';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
+import { CreateTipoAtivoDto, UpdateTipoAtivoDto } from "./dtos/create-tipo-ativo.dto";
+import { TipoAtivoService } from "./tipo-ativo.service";
 
-@Controller('Tipoativos')
+
+@Controller('Cotacao')
 export class TipoAtivoController {
-  // GET /usuarios
-  @Get()
-  findAll(): string {
-    return 'Listando todos os usuários';
-  }
+  constructor(private readonly CotacaoService: TipoAtivoService) {}
 
-  // GET /usuarios/:id
-  @Get(':id')
-  findOne(@Param('id') id: string): string {
-    return `Detalhes do usuário ${id}`;
-  }
-
-  // POST /usuarios
   @Post()
-  create(@Body() tipo: Partial<TipoAtivo>): string {
-    return `Criando usuário ${tipo.nome}`;
+  create(@Body() dto: CreateTipoAtivoDto) {
+    return this.CotacaoService.create(dto);
+  }
+
+  @Get()
+  findAll() {
+    return this.CotacaoService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.CotacaoService.findOne(id);
+  }
+
+  @Put(':id')
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateTipoAtivoDto,
+  ) {
+    return this.CotacaoService.update(id, dto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.CotacaoService.remove(id);
   }
 }

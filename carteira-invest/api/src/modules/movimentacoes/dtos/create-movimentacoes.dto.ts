@@ -1,5 +1,4 @@
 // movimentacao.dto.ts
-import { PartialType } from '@nestjs/mapped-types';
 import { Type } from 'class-transformer';
 import {
   IsDateString,
@@ -42,5 +41,4 @@ import {
     dataMovimentacao!: string;     // opcional → torne @IsOptional se quiser
   }
   
-  export class UpdateMovimentacaoDto extends PartialType(CreateMovimentacoesDto) {}
   

@@ -1,26 +1,37 @@
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
+import { CarteirasService } from "./carteiras.service";
+import { CreateCarteiraDto } from "./dtos/create-carteira.dto";
+import { UpdateCarteiraDto } from "./dtos/update-carteira.dto";
 
-
-
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { Carteira } from './carteira.entity';
-
-@Controller('Carteiras')
+@Controller('Carteirass')
 export class CarteirasController {
-  // GET /usuarios
-  @Get()
-  findAll(): string {
-    return 'Listando todos os usuários';
-  }
+  constructor(private readonly CarteirassService: CarteirasService) {}
 
-  // GET /usuarios/:id
-  @Get(':id')
-  findOne(@Param('id') id: string): string {
-    return `Detalhes do usuário ${id}`;
-  }
-
-  // POST /usuarios
   @Post()
-  create(@Body() carteira: Partial<Carteira>): string {
-    return `Criando usuário ${carteira.nome}`;
+  create(@Body() dto: CreateCarteiraDto) {
+    return this.CarteirassService.create(dto);
+  }
+
+  @Get()
+  findAll() {
+    return this.CarteirassService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.CarteirassService.findOne(id);
+  }
+
+  @Put(':id')
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateCarteiraDto,
+  ) {
+    return this.CarteirassService.update(id, dto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.CarteirassService.remove(id);
   }
 }
