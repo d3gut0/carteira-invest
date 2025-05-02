@@ -1,47 +1,32 @@
-// import { Test, TestingModule } from '@nestjs/testing';
-// import { MovimentacoesController } from './movimentacoes.controller';
-
-// describe('MovimentacoesController', () => {
-//   let controller: MovimentacoesController;
-
-//   beforeEach(async () => {
-//     const module: TestingModule = await Test.createTestingModule({
-//       controllers: [MovimentacoesController],
-//     }).compile();
-
-//     controller = module.get<MovimentacoesController>(MovimentacoesController);
-//   });
-
-//   it('should be defined', () => {
-//     expect(controller).toBeDefined();
-//   });
-// });
-// ativos.e2e-spec.ts
 import { INestApplication } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from 'src/app.module';
-import * as request from 'supertest'; // ⬅️  supertest
+import { Test } from '@nestjs/testing';
+import * as request from 'supertest';
 
-describe('MovimentacoesController (e2e)', () => {
+import { MovimentacoesController } from './movimentacoes.controller';
+import { MovimentacoesService } from './movimentacoes.service';
+
+const movServiceMock = {
+  findAll: jest.fn(),
+  create : jest.fn(),
+};
+
+describe('MovimentacoesController', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+    const module = await Test.createTestingModule({
+      controllers: [MovimentacoesController],
+      providers:   [{ provide: MovimentacoesService, useValue: movServiceMock }],
     }).compile();
 
-    app = moduleFixture.createNestApplication();
+    app = module.createNestApplication();
     await app.init();
   });
 
-  afterAll(async () => {
-    await app.close(); // fecha a aplicação quando o teste acabar
-  });
+  afterAll(async () => app.close());
 
-  it('/movimentacoes (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/movimentacoes')
-      .expect(200)
-      .expect([]);     // ajuste o corpo esperado conforme seu controller
+  it('GET /movimentacoes retorna []', async () => {
+    movServiceMock.findAll.mockResolvedValueOnce([]);
+    await request(app.getHttpServer()).get('/movimentacoes').expect(200).expect([]);
   });
 });

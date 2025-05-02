@@ -1,48 +1,32 @@
-// import { Test, TestingModule } from '@nestjs/testing';
-// import { CarteirasController } from './carteiras.controller';
-
-// describe('CarteirasController', () => {
-//   let controller: CarteirasController;
-
-//   beforeEach(async () => {
-//     const module: TestingModule = await Test.createTestingModule({
-//       controllers: [CarteirasController],
-//     }).compile();
-
-//     controller = module.get<CarteirasController>(CarteirasController);
-//   });
-
-//   it('should be defined', () => {
-//     expect(controller).toBeDefined();
-//   });
-// });
-
-// ativos.e2e-spec.ts
 import { INestApplication } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from 'src/app.module';
-import * as request from 'supertest'; // ⬅️  supertest
+import { Test } from '@nestjs/testing';
+import * as request from 'supertest';
 
-describe('CarteirasController (e2e)', () => {
+import { CarteirasController } from './carteiras.controller';
+import { CarteirasService } from './carteiras.service';
+
+const carteirasServiceMock = {
+  findAll: jest.fn(),
+  create : jest.fn(),
+};
+
+describe('CarteirasController', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+    const module = await Test.createTestingModule({
+      controllers: [CarteirasController],
+      providers:   [{ provide: CarteirasService, useValue: carteirasServiceMock }],
     }).compile();
 
-    app = moduleFixture.createNestApplication();
+    app = module.createNestApplication();
     await app.init();
   });
 
-  afterAll(async () => {
-    await app.close(); // fecha a aplicação quando o teste acabar
-  });
+  afterAll(async () => app.close());
 
-  it('/carteiras (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/carteiras')
-      .expect(200)
-      .expect([]);     // ajuste o corpo esperado conforme seu controller
+  it('GET /carteiras retorna []', async () => {
+    carteirasServiceMock.findAll.mockResolvedValueOnce([]);
+    await request(app.getHttpServer()).get('/carteiras').expect(200).expect([]);
   });
 });

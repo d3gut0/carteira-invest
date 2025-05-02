@@ -1,49 +1,32 @@
-// import { Test, TestingModule } from '@nestjs/testing';
-// import { CotacoesController } from './cotacoes.controller';
-
-// describe('CotacoesController', () => {
-//   let controller: CotacoesController;
-
-//   beforeEach(async () => {
-//     const module: TestingModule = await Test.createTestingModule({
-//       controllers: [CotacoesController],
-//     }).compile();
-
-//     controller = module.get<CotacoesController>(CotacoesController);
-//   });
-
-//   it('should be defined', () => {
-//     expect(controller).toBeDefined();
-//   });
-// });
-
-
-// ativos.e2e-spec.ts
 import { INestApplication } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from 'src/app.module';
-import * as request from 'supertest'; // ⬅️  supertest
+import { Test } from '@nestjs/testing';
+import * as request from 'supertest';
 
-describe('CotacoesController (e2e)', () => {
+import { CotacoesController } from './cotacoes.controller';
+import { CotacoesService } from './cotacoes.service';
+
+const cotacoesServiceMock = {
+  findAll: jest.fn(),
+  create : jest.fn(),
+};
+
+describe('CotacoesController', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+    const module = await Test.createTestingModule({
+      controllers: [CotacoesController],
+      providers:   [{ provide: CotacoesService, useValue: cotacoesServiceMock }],
     }).compile();
 
-    app = moduleFixture.createNestApplication();
+    app = module.createNestApplication();
     await app.init();
   });
 
-  afterAll(async () => {
-    await app.close(); // fecha a aplicação quando o teste acabar
-  });
+  afterAll(async () => app.close());
 
-  it('/cotacoes (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/cotacoes')
-      .expect(200)
-      .expect([]);     // ajuste o corpo esperado conforme seu controller
+  it('GET /cotacoes retorna []', async () => {
+    cotacoesServiceMock.findAll.mockResolvedValueOnce([]);
+    await request(app.getHttpServer()).get('/cotacoes').expect(200).expect([]);
   });
 });

@@ -1,49 +1,32 @@
-// import { Test, TestingModule } from '@nestjs/testing';
-// import { TipoAtivoController } from './tipo-ativo.controller';
-
-// describe('TipoAtivoController', () => {
-//   let controller: TipoAtivoController;
-
-//   beforeEach(async () => {
-//     const module: TestingModule = await Test.createTestingModule({
-//       controllers: [TipoAtivoController],
-//     }).compile();
-
-//     controller = module.get<TipoAtivoController>(TipoAtivoController);
-//   });
-
-//   it('should be defined', () => {
-//     expect(controller).toBeDefined();
-//   });
-// });
-
-
-// ativos.e2e-spec.ts
 import { INestApplication } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from 'src/app.module';
-import * as request from 'supertest'; // ⬅️  supertest
+import { Test } from '@nestjs/testing';
+import * as request from 'supertest';
 
-describe('TipoAtivoController (e2e)', () => {
+import { TipoAtivoController } from './tipo-ativo.controller';
+import { TipoAtivoService } from './tipo-ativo.service';
+
+const tipoAtivoServiceMock = {
+  findAll: jest.fn(),
+  create : jest.fn(),
+};
+
+describe('TipoAtivoController', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+    const module = await Test.createTestingModule({
+      controllers: [TipoAtivoController],
+      providers:   [{ provide: TipoAtivoService, useValue: tipoAtivoServiceMock }],
     }).compile();
 
-    app = moduleFixture.createNestApplication();
+    app = module.createNestApplication();
     await app.init();
   });
 
-  afterAll(async () => {
-    await app.close(); // fecha a aplicação quando o teste acabar
-  });
+  afterAll(async () => app.close());
 
-  it('/tipo-ativos (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/tipo-ativos')
-      .expect(200)
-      .expect([]);     // ajuste o corpo esperado conforme seu controller
+  it('GET /tipo-ativo retorna []', async () => {
+    tipoAtivoServiceMock.findAll.mockResolvedValueOnce([]);
+    await request(app.getHttpServer()).get('/tipo-ativo').expect(200).expect([]);
   });
 });

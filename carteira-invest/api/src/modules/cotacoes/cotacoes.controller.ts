@@ -1,25 +1,29 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
-import { CotacoesService } from "./cotacoes.service";
-import { CreateCotacaoDto, UpdateCotacaoDto } from "./dtos/create-cotacoes.dto";
+// cotacoes.controller.ts
+import {
+  Body, Controller, Delete, Get, Param,
+  ParseIntPipe, Post, Put,
+} from '@nestjs/common';
+import { CotacoesService } from './cotacoes.service';
+import { CreateCotacaoDto } from './dtos/create-cotacoes.dto';
+import { UpdateCotacaoDto } from './dtos/update-cotacoes.dto'; // ✅ caminho correto
 
-
-@Controller('cotacoes') 
+@Controller('cotacoes')
 export class CotacoesController {
-  constructor(private readonly CotacaoService: CotacoesService) {}
+  constructor(private readonly service: CotacoesService) {}
 
   @Post()
   create(@Body() dto: CreateCotacaoDto) {
-    return this.CotacaoService.create(dto);
+    return this.service.create(dto);
   }
 
   @Get()
   findAll() {
-    return this.CotacaoService.findAll();
+    return this.service.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.CotacaoService.findOne(id);
+    return this.service.findOne(id);
   }
 
   @Put(':id')
@@ -27,11 +31,11 @@ export class CotacoesController {
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateCotacaoDto,
   ) {
-    return this.CotacaoService.update(id, dto);
+    return this.service.update(id, dto);
   }
 
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
-    return this.CotacaoService.remove(id);
+    return this.service.remove(id);
   }
 }
